@@ -1,61 +1,50 @@
-# Project Brief: Pawtner - The All-in-One Pet Care Platform
+# Pawtner: The All-in-One Pet Care Platform
 
 ## 1. Executive Summary
 
-**Pawtner** is a digital platform designed to serve as the ultimate partner for modern pet owners. It addresses critical daily challenges by consolidating pet-related needs—including product commerce, service booking, and health management—into a single, user-friendly mobile application. The platform connects pet owners (Customers) with local pet businesses (Veterinarians, Shops, Daycares) to create a seamless and integrated care ecosystem.
+**Pawtner** is a digital platform designed to be the ultimate partner for modern pet owners. It addresses critical daily challenges by consolidating pet-related needs—including product commerce, service booking, and health management—into a single, user-friendly mobile application. The platform connects pet owners (Customers) with local pet businesses (Veterinarians, Shops, Daycares) to create a seamless and integrated care ecosystem with **secure, integrated payment processing powered by Midtrans**.
 
-The initial development phase will focus on delivering a **Minimum Viable Product (MVP)** within an aggressive 10-day sprint. This MVP is laser-focused on solving the most pressing user problems to validate the core value proposition of the application.
+This document outlines the plan for a **Minimum Viable Product (MVP)** to be delivered in a series of focused sprints. The goal is to solve the most pressing user problems and validate the core transactional value proposition of the application.
 
 ## 2. Core Problem Statement
 
-The current pet care landscape is fragmented and heavily reliant on analog processes, leading to significant frustrations for pet owners. Pawtner aims to solve the following key issues:
+The current pet care landscape is fragmented, leading to significant frustrations for pet owners. Pawtner aims to solve the following key issues:
 
 *   **Limited Access to Emergency Assistance:** Difficulty in quickly locating nearby, open veterinary clinics with available emergency contact information during urgent situations.
-*   **Unpredictable E-commerce Costs:** The online purchasing experience for pet products is often marred by unexpected shipping fees, complicating budget management and obscuring local delivery options.
-*   **Holiday Boarding Challenges:** During peak seasons, pet boarding facilities are frequently overbooked. Owners encounter inconsistent service standards, unclear policies (e.g., food provision), and a lack of real-time availability checking.
-*   **Vulnerable Paper-Based Prescriptions:** Reliance on paper prescriptions creates a high risk of loss or damage, which can jeopardize a pet's treatment regimen and continuity of care.
+*   **Fragmented & Insecure E-commerce:** The online purchasing and service booking experience is often clunky, lacks transparent costs, and requires users to leave the app for payment, creating a disjointed and untrustworthy process.
+*   **Holiday Boarding Challenges:** During peak seasons, pet boarding facilities are frequently overbooked. Owners face inconsistent service standards, unclear policies, and no real-time availability checks.
+*   **Vulnerable Paper-Based Prescriptions:** Reliance on paper prescriptions creates a high risk of loss or damage, jeopardizing a pet's treatment regimen and continuity of care.
 *   **Absence of Medication Tracking:** Without a digital system, owners must rely on memory for medication administration, increasing the risk of missed doses and negatively impacting a pet's recovery.
-*   **Need for Reliable Advice:** A gap exists for a quick, trustworthy source of information for general pet care questions, which can also intelligently escalate serious queries to professional help.
+*   **Need for Reliable Advice & Trust:** A gap exists for a quick, trustworthy source of information. Users need to trust businesses, products, and services, which is difficult without community feedback or a clear verification process.
 
 ## 3. Proposed Solution & Core Features (MVP)
 
-Pawtner will address these problems through a suite of interconnected features built upon a lean yet powerful database architecture.
+Pawtner will address these problems through a suite of interconnected features built upon a robust database architecture.
 
-*   **Feature 1: Local Business Discovery**
-    *   **Solves:** Emergency Assistance, Boarding Challenges.
-    *   **Description:** A searchable directory of pet businesses, filterable by local area (`ward`). Profiles will feature essential details like address, contact numbers, a dedicated emergency phone, and operating hours.
-
-*   **Feature 2: Integrated Marketplace**
-    *   **Solves:** Unpredictable E-commerce Costs.
-    *   **Description:** An in-app marketplace for businesses to list products. The checkout process supports multi-item carts and transparently displays `shipping_cost` before purchase confirmation.
-
-*   **Feature 3: Centralized Service Booking**
-    *   **Solves:** Holiday Boarding Challenges.
-    *   **Description:** A robust system for booking services (e.g., boarding, grooming). It will clearly display service policies (`requires_food_from_owner`, `can_accommodate_sick_pets`) and enforce a real-time capacity check to prevent overbooking, guaranteeing availability upon booking.
-
-*   **Feature 4: Digital Pet Health Records**
-    *   **Solves:** Vulnerable Prescriptions, Foundation for Medication Tracking.
-    *   **Description:** Digital profiles for each pet where veterinarians can issue, and owners can view, digital `prescriptions`. This creates a permanent, accessible medication history, eliminating the risks associated with paper records.
-
-*   **Feature 5: AI-Powered Assistant (Client-Side)**
-    *   **Solves:** Need for Reliable Advice.
-    *   **Description:** A chat interface for general care queries, using the pet's profile data for context. For urgent or serious questions, the AI will escalate by directing the user to the Local Business Discovery feature.
+*   **Feature 1: Verified Local Business Discovery:** A searchable directory of pet businesses with verified badges to build trust.
+*   **Feature 2: Multi-Store Integrated Marketplace:** An in-app marketplace with a separate shopping cart for each business.
+*   **Feature 3: Centralized Service Booking:** A robust system for booking services with real-time capacity checks to prevent overbooking.
+*   **Feature 4: Digital Pet Health Records & Prescriptions:** Digital pet profiles where vets can issue, and owners can view, permanent and accessible medication histories.
+*   **Feature 5: Reviews and Rating System:** A comprehensive review system for businesses, products, and services to build a trusted community.
+*   **Feature 6: AI-Powered Assistant (Client-Side):** A chat interface for general queries, escalating serious questions to professionals.
+*   **Feature 7: Integrated & Secure Payment Gateway (Midtrans):** A fully integrated payment system allowing users to pay directly within the app, completing the business cycle and solidifying user trust.
 
 ## 4. Problem-Solution Mapping via Database Design
 
-This section details how the database schema is architected to solve each identified problem.
-
-| Masalah (Problem) | Tabel Terkait (Relevant Tables) | Kolom Kunci (Key Columns) | Cara Penyelesaian (Solution Mechanism) |
+| Problem | Relevant Tables | Key Columns | Solution Mechanism |
 | :--- | :--- | :--- | :--- |
-| **Akses Darurat Terbatas** | `businesses` | `emergency_phone`, `ward`, `operation_hours` | Enables rapid, location-based filtering (`ward`) to display crucial contact details (`emergency_phone`) and operational status (`operation_hours`). |
-| **Biaya Pengiriman Tidak Terduga** | `orders`, `order_items` | `orders.shipping_cost` | The `shipping_cost` is an explicit, calculated field, ensuring full cost transparency for the user before payment commitment. |
-| **Kesulitan Penitipan Saat Libur** | `services`, `bookings` | `services` (policy booleans, `capacity_per_day`) | Policies are displayed upfront for informed decisions. Real-time availability is enforced by cross-referencing new booking requests against existing `bookings` and the service's `capacity_per_day`. |
-| **Resep Rentan Hilang** | `prescriptions`, `pets` | All columns in `prescriptions` | Digitalizes the entire prescription record, linking it immutably to a pet's profile (`pet_id`). This creates a permanent, secure, and easily accessible source of truth. |
-| **Kurangnya Jadwal Obat** | `prescriptions` | `dosage`, `frequency`, `instructions` | Provides a reliable, digital reference for administration instructions, solving the foundational issue of forgotten details and laying the groundwork for future automated reminders. |
+| **Limited Emergency Access** | `businesses` | `emergency_phone`, `longitude`, `latitude`, `status_realtime` | Enables rapid, location-based filtering to display crucial contact details and real-time operational status. |
+| **Complex E-commerce & Booking** | `shopping_carts`, `orders`, `bookings`, **`payments`** | `payments.snap_token`, `orders.status`, `bookings.status` | **A complete transactional flow.** A user checks out, an order/booking is created with `pending_payment` status, and Midtrans is called for a `snap_token`. A successful payment (confirmed via webhook) automatically updates the order status to `processing` or `confirmed`. |
+| **Holiday Boarding Difficulty** | `services`, `bookings`, **`payments`** | `services.capacity_per_day`, `bookings.start_time`, `bookings.status` | Real-time availability is checked on booking request. The slot is only truly secured (`status = 'confirmed'`) **after a successful payment** via Midtrans, preventing "ghost" bookings from blocking capacity. |
+| **Vulnerable Prescriptions** | `prescriptions`, `prescription_items` | `prescriptions.pet_id`, `prescription_items.medication_name` | Full digitalization of prescriptions, linked to a pet's profile, creating a permanent, secure, and easily accessible record. |
+| **Lack of Medication Schedule** | `prescription_items` | `medication_name`, `dosage`, `frequency`, `duration_days` | Provides a detailed, reliable digital reference for each medication, solving the core problem of forgotten details. |
+| **Need for Trusted Advice** | `reviews`, `businesses` | `reviews.rating`, `businesses.is_verified` | Users can make informed decisions based on community `reviews`. The `is_verified` badge, backed by an admin workflow, builds a foundational layer of trust. |
 
-## 5. Database Schema (MVP)
+## 5. Detailed Database Schema & Explanation
 
-This is the optimized database schema designed for the 10-day development sprint.
+This is the complete and optimized database schema for the MVP.
+
+### 5.1. SQL Schema
 
 ```sql
 -- Manages user accounts for both customers and business owners
@@ -64,30 +53,58 @@ CREATE TABLE users (
     name VARCHAR(255),
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(50) UNIQUE,
+    password_hash VARCHAR(255), -- Can be null for OAuth providers
+    address TEXT,
+    latitude DECIMAL(9, 6),
+    longitude DECIMAL(9, 6),
+    image_url VARCHAR(255),
+    is_verified BOOLEAN DEFAULT false,
     role VARCHAR(50) NOT NULL CHECK (role IN ('business_owner', 'customer')),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    auth_provider VARCHAR(50) NOT NULL DEFAULT 'local',
+    provider_id VARCHAR(255),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (auth_provider, provider_id)
 );
 
 -- Contains profiles for all service-providing businesses
 CREATE TABLE businesses (
     id SERIAL PRIMARY KEY,
-    owner_id UUID NOT NULL REFERENCES users(id),
+    owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    business_email VARCHAR(255),
+    business_email VARCHAR(255) UNIQUE,
     business_phone VARCHAR(50),
+    business_image_url VARCHAR(255),
+    certificate_image_url VARCHAR(255), -- For verification process
     emergency_phone VARCHAR(50),
     address TEXT,
-    ward VARCHAR(100) NOT NULL, -- Key for location-based filtering
+    latitude DECIMAL(9, 6),
+    longitude DECIMAL(9, 6),
+    is_verified BOOLEAN DEFAULT false,  
     operation_hours JSONB,
+    status_realtime VARCHAR(50) DEFAULT 'Closed', -- e.g., 'Accepting Patients', 'At Capacity', 'Closed'
+    last_status_update TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Contains profiles for all customer-owned pets
+CREATE TABLE pets (
+    id SERIAL PRIMARY KEY,
+    owner_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    name VARCHAR(255) NOT NULL,
+    species VARCHAR(100),
+    breed VARCHAR(100),
+    birth_date DATE,
+    image_url VARCHAR(255),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
 -- A catalog of all physical products sold by businesses
 CREATE TABLE products (
     id SERIAL PRIMARY KEY,
-    business_id INT NOT NULL REFERENCES businesses(id),
+    business_id INT NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
     name VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL CHECK (category IN ('food', 'toys', 'accessories', 'health', 'grooming_kit')),
     description TEXT,
     price DECIMAL(10, 2) NOT NULL,
     stock_quantity INT NOT NULL DEFAULT 0,
@@ -98,31 +115,58 @@ CREATE TABLE products (
 -- A catalog of all services (e.g., boarding, grooming) offered by businesses
 CREATE TABLE services (
     id SERIAL PRIMARY KEY,
-    business_id INT NOT NULL REFERENCES businesses(id),
+    business_id INT NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
     category VARCHAR(50) NOT NULL CHECK (category IN ('boarding', 'daycare', 'grooming', 'veterinary')),
     name VARCHAR(255) NOT NULL,
+    service_image_url VARCHAR(255),
     base_price DECIMAL(10, 2) NOT NULL,
     requires_food_from_owner BOOLEAN DEFAULT false,
     can_accommodate_sick_pets BOOLEAN DEFAULT false,
-    capacity_per_day INT, -- For real-time availability checks
+    available_at VARCHAR(50) NOT NULL CHECK (available_at IN ('in_clinic', 'at_home', 'both')),    
+    capacity_per_day INT, -- For real-time availability checks on services like boarding
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Represents a user's shopping cart for a specific business
+CREATE TABLE shopping_carts (
+    id SERIAL PRIMARY KEY,
+    customer_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    business_id INT NOT NULL REFERENCES businesses(id) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- A customer can only have one active cart per business at a time
+    UNIQUE (customer_id, business_id)
+);
+
+-- Contains the individual products within a shopping cart
+CREATE TABLE cart_items (
+    id SERIAL PRIMARY KEY,
+    cart_id INT NOT NULL REFERENCES shopping_carts(id) ON DELETE CASCADE,
+    product_id INT NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    added_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- A product can only appear once in a specific cart; quantity should be updated instead
+    UNIQUE (cart_id, product_id)
 );
 
 -- Represents a transaction receipt for product purchases
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     customer_id UUID NOT NULL REFERENCES users(id),
+    business_id INT NOT NULL REFERENCES businesses(id), -- Specifies which business the order is for
     order_number VARCHAR(255) UNIQUE NOT NULL,
     total_amount DECIMAL(10, 2) NOT NULL,
+    address TEXT,
+    special_instructions TEXT,
     shipping_cost DECIMAL(10, 2) DEFAULT 0,
-    status VARCHAR(50) NOT NULL CHECK (status IN ('pending', 'paid', 'shipped', 'completed', 'cancelled')),
+    status VARCHAR(50) NOT NULL DEFAULT 'pending_payment' CHECK (status IN ('pending_payment', 'processing', 'shipped', 'completed', 'cancelled', 'failed', 'refunded')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Junction table to facilitate many-to-many relationship between orders and products
+-- Junction table for many-to-many relationship between orders and products
 CREATE TABLE order_items (
     id SERIAL PRIMARY KEY,
-    order_id INT NOT NULL REFERENCES orders(id),
+    order_id INT NOT NULL REFERENCES orders(id) ON DELETE CASCADE,
     product_id INT NOT NULL REFERENCES products(id),
     quantity INT NOT NULL,
     price_at_purchase DECIMAL(10, 2) NOT NULL -- Logs the price at the time of sale
@@ -137,158 +181,152 @@ CREATE TABLE bookings (
     booking_number VARCHAR(255) UNIQUE NOT NULL,
     start_time TIMESTAMP WITH TIME ZONE NOT NULL,
     end_time TIMESTAMP WITH TIME ZONE NOT NULL,
+    special_instructions TEXT,
     total_price DECIMAL(10, 2) NOT NULL,
-    status VARCHAR(50) NOT NULL CHECK (status IN ('requested', 'confirmed', 'cancelled', 'completed')),
+    status VARCHAR(50) NOT NULL DEFAULT 'requested' CHECK (status IN ('requested', 'confirmed', 'cancelled', 'completed')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Contains profiles for all customer-owned pets
-CREATE TABLE pets (
+-- [NEW & IMPORTANT] Records all payment transactions processed via Midtrans
+CREATE TABLE payments (
     id SERIAL PRIMARY KEY,
-    owner_id UUID NOT NULL REFERENCES users(id),
-    name VARCHAR(255) NOT NULL,
-    species VARCHAR(100),
-    breed VARCHAR(100),
-    birth_date DATE,
-    image_url VARCHAR(255),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    order_id INT REFERENCES orders(id) ON DELETE SET NULL,      -- Link to a product order
+    booking_id INT REFERENCES bookings(id) ON DELETE SET NULL,  -- Link to a service booking
+    payment_gateway_ref_id VARCHAR(255) UNIQUE NOT NULL,        -- The unique order_id from Midtrans
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_method VARCHAR(100),                                -- e.g., 'gopay', 'bca_va', will be filled by webhook
+    status VARCHAR(50) NOT NULL CHECK (status IN ('pending', 'settlement', 'capture', 'expire', 'failure', 'cancel')),
+    snap_token VARCHAR(255),                                    -- The token used by the frontend to render the payment pop-up
+    snap_redirect_url TEXT,
+    payment_expiry_time TIMESTAMP WITH TIME ZONE,
+    webhook_payload JSONB,                                      -- To store the full notification from Midtrans for auditing
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- A payment must be for EITHER an order OR a booking, not both.
+    CONSTRAINT chk_payment_target CHECK (
+        (CASE WHEN order_id IS NOT NULL THEN 1 ELSE 0 END) +
+        (CASE WHEN booking_id IS NOT NULL THEN 1 ELSE 0 END) = 1
+    )
 );
 
--- A digital record of veterinary prescriptions
+-- A digital record of veterinary prescriptions (the container)
 CREATE TABLE prescriptions (
     id SERIAL PRIMARY KEY,
     pet_id INT NOT NULL REFERENCES pets(id),
     issuing_business_id INT NOT NULL REFERENCES businesses(id),
-    medication_name VARCHAR(255) NOT NULL,
-    dosage VARCHAR(255) NOT NULL,
-    frequency VARCHAR(255) NOT NULL,
-    duration_days INT NOT NULL,
-    instructions TEXT,
     issue_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    notes TEXT, -- General notes from the vet about the overall condition or prescription
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Individual medication items within a single prescription
+CREATE TABLE prescription_items (
+    id SERIAL PRIMARY KEY,
+    prescription_id INT NOT NULL REFERENCES prescriptions(id) ON DELETE CASCADE,
+    medication_name VARCHAR(255) NOT NULL,
+    dosage VARCHAR(255) NOT NULL, -- e.g., '1 tablet', '5ml'
+    frequency VARCHAR(255) NOT NULL, -- e.g., 'Twice a day', 'Every 8 hours'
+    duration_days INT NOT NULL, -- e.g., 7, 14
+    instructions TEXT -- e.g., 'With food', 'Before sleep'
+);
+
+-- Reviews for businesses, products, or services
+CREATE TABLE reviews (
+    id SERIAL PRIMARY KEY,
+    user_id UUID NOT NULL REFERENCES users(id),
+    business_id INT REFERENCES businesses(id) ON DELETE CASCADE,
+    product_id INT REFERENCES products(id) ON DELETE CASCADE,
+    service_id INT REFERENCES services(id) ON DELETE CASCADE,
+    rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    -- A review must be for EITHER a business, a product, OR a service, but not multiple.
+    CONSTRAINT check_review_target CHECK (
+        (CASE WHEN business_id IS NOT NULL THEN 1 ELSE 0 END) +
+        (CASE WHEN product_id IS NOT NULL THEN 1 ELSE 0 END) +
+        (CASE WHEN service_id IS NOT NULL THEN 1 ELSE 0 END) = 1
+    )
+);
 ```
+
+### 5.2. Explanation of Key SQL Concepts
+
+*   **`ON DELETE CASCADE`**: This rule ensures data integrity. For example, if a `user` deletes their account, all their `pets`, `bookings`, and `shopping_carts` are automatically deleted, preventing orphaned data.
+*   **`UNIQUE` Constraints**: These are used to enforce business rules. For example, `UNIQUE (customer_id, business_id)` in `shopping_carts` ensures a user can only have one cart per store.
+*   **`CHECK` Constraints**: These enforce valid values for a column, like ensuring a `rating` is between 1 and 5, or that a `role` is either 'customer' or 'business_owner'.
+*   **`payments.chk_payment_target`**: This is a powerful constraint ensuring that a payment record is linked to *either* an order *or* a booking, but never both. It guarantees that the purpose of every payment is clear.
+*   **`reviews.check_review_target`**: Similarly, this constraint ensures a review is specific and targets only one entity (a business, a product, or a service).
+
 ## 6. Implementation Flow and Core Workflows
 
-### User Onboarding
-A new user registers via the React Native mobile app, creating a record in the `users` table. Based on their selected `role`, they are directed to either:
-- Create `pet` profiles (for customers)
-- Create a `business` profile (for business owners)
+### E-commerce Workflow (Add to Cart -> Successful Payment)
+1.  **Add to Cart**: User adds a product. Backend manages `shopping_carts` and `cart_items`.
+2.  **Checkout**:
+    *   User clicks "Checkout". Backend creates an `orders` record with `status = 'pending_payment'`.
+    *   Backend calls the **Midtrans API** to create a transaction, receiving a `snap_token`.
+    *   Backend creates a `payments` record with `status = 'pending'` and saves the `snap_token`.
+    *   The `snap_token` is sent back to the frontend.
+3.  **Payment**: Frontend uses the `snap_token` to render the Midtrans Snap payment pop-up. User completes payment.
+4.  **Confirmation (Webhook)**:
+    *   Midtrans sends a webhook notification to our backend.
+    *   Backend verifies the webhook, updates the `payments` status to `'settlement'`, and the `orders` status to `'processing'`.
+    *   Finally, it decrements `products.stock_quantity` and clears the user's `shopping_cart`.
 
-Business owners will primarily use a separate React.js web dashboard to manage their profiles, `products`, and `services` catalogs.
-
-### Service Booking Workflow (Mobile App)
-1. Customer searches for a `boarding` service within their `ward`
-2. React Native app calls Spring Boot API, which:
-   - Queries `businesses` by location
-   - Joins with `services` to retrieve relevant offerings
-3. Results display service policies transparently
-4. Upon date range selection:
-   - Backend validates availability by counting conflicting `bookings` against service's `capacity_per_day`
-   - Successful validation → new record in `bookings` table
-   - Failure → returns "at capacity" error
-
-### E-commerce Workflow (Mobile App)
-1. Customer adds items to cart (state managed in React Native)
-2. At checkout:
-   - Backend receives cart data
-   - Calculates `total_amount` including `shipping_cost`
-3. Creates:
-   - Parent record in `orders` table
-   - Child records in `order_items` for each product
-
-### Prescription Management Workflow (Web Dashboard)
-1. Veterinarian (`business_owner`) logs into React.js dashboard
-2. Accesses patient's `pet` profile
-3. Submits form → creates new record in `prescriptions` table
-4. Customer instantly views digital record in React Native app
+### Service Booking Workflow
+1.  **Availability Check**: User selects a service and dates. Backend validates `services.capacity_per_day` against existing confirmed `bookings`.
+2.  **Request Booking**: If available, the flow mirrors e-commerce: create a `bookings` record (`status = 'requested'`), call Midtrans, create a `payments` record, and return a `snap_token`.
+3.  **Payment & Confirmation**: Upon successful payment webhook, the `bookings` status is changed to `'confirmed'`. The slot is now officially reserved.
 
 ## 7. Technical Specifications and Execution Plan
 
 ### a. Recommended Technology Stack
-| Component | Technology | Rationale |
-|-----------|------------|-----------|
-| **Database** | PostgreSQL | Robust, reliable, native `JSONB` support works well with JPA/Hibernate |
-| **Backend** | Java with Spring Boot | Enterprise-grade REST APIs with Spring Data JPA, Spring Web, Spring Security |
-| **Frontend (Mobile)** | React Native | Cross-platform for iOS/Android |
-| **Frontend (Web)** | React.js | Web dashboard for business owners |
-| **Authentication** | Spring Security with JWT | Industry-standard stateless API security |
+| Component | Technology |
+|---|---|
+| **Database** | PostgreSQL |
+| **Backend** | Java with Spring Boot |
+| **Frontend (Mobile)** | React Native |
+| **Frontend (Web)** | React.js |
+| **Authentication** | Spring Security with JWT |
+| **Payment Gateway** | **Midtrans** |
 
 ### b. High-Level API Endpoint Design
-**Core Controllers:**
-- `AuthController`:
-  - `POST /api/auth/register`
-  - `POST /api/auth/login`
-- `UserController`:
-  - `GET /api/users/me`
-- `BusinessController`:
-  - `GET /api/businesses`
-- `ProductController`:
-  - Product catalog management
-- `ServiceController`:
-  - Service catalog browsing
-- `OrderController`:
-  - `POST /api/orders`
-- `BookingController`:
-  - `POST /api/bookings/check-availability`
-- `PetController`:
-  - Pet profile management
-- `PrescriptionController`:
-  - Veterinary prescriptions
+- `AuthController`: `/api/auth/register`, `/api/auth/login`
+- `BusinessController`: `GET /api/businesses`, `GET /api/businesses/{id}`
+- `CartController`: `GET /api/carts`, `POST /api/carts/items`
+- `OrderController`: `POST /api/orders/checkout`
+- **`PaymentController`**:
+    - `POST /api/orders/{orderId}/pay` -> Returns a `snap_token`.
+    - `POST /api/bookings/{bookingId}/pay` -> Returns a `snap_token`.
+    - `POST /api/payments/webhook` -> Public endpoint for Midtrans notifications.
 
-### c. 10-Day MVP Sprint Plan
-**Days 1-2: Foundation & Backend Setup**
-- Initialize Git repos (Backend, Mobile App, Web Dashboard)
-- Set up Spring Boot project
-- Configure PostgreSQL connection
-- Define JPA entities
-- Implement Spring Security (JWT auth)
+### c. Realistic MVP Sprint Plan (Focused Scope)
 
-**Days 3-5: Backend Core Logic**
-- Build REST controllers/services/repositories for:
-  - `businesses`
-  - `products`
-  - `services`
-  - `pets`
-- Implement:
-  - Order creation logic
-  - Booking availability check
+To ensure high quality, the MVP will focus on validating **one core business cycle: E-commerce End-to-End**.
 
-**Days 6-8: Frontend Development**
-- **React Native Team:**
-  - Login screen
-  - Business Directory
-  - Product Catalogs
-  - Pet Profiles
-  - Cart/Checkout
-- **React.js Team:**
-  - Login screen
-  - Business Profile Management
-  - Product/Service Management
+**Sprint 1 (Weeks 1-2): Foundation & Core E-commerce Logic**
+- **Goal**: Build the complete backend logic for a user to buy a product.
+- **Tasks**: Setup project, implement all entities, configure Spring Security, implement logic for `Carts` & `Orders`, and **critically, implement the `PaymentService` to integrate with the Midtrans API (create transaction, handle webhook).**
 
-**Days 9-10: Integration & Deployment**
-- Connect frontends to backend APIs
-- End-to-end testing:
-  - Customer journey (mobile)
-  - Business journey (web)
-- Bug fixes & UI refinements
-- Deploy backend to cloud (Heroku/AWS)
+**Sprint 2 (Weeks 3-4): Frontend Development & Integration**
+- **Goal**: Create the user-facing application for the e-commerce flow and connect it to the backend.
+- **Tasks**:
+    - **React Native (Customer App)**: Build screens for Login, Product Discovery, Cart, and **implement the Checkout screen with Midtrans Snap.js integration.**
+    - **React.js (Business Dashboard)**: Build screens for Login, Business/Product Management, and viewing incoming orders.
+    - **Integration**: Connect all frontend components to the backend APIs.
+
+**Sprint 3 (Week 5): Testing, Refinement & Deployment**
+- **Goal**: Ensure the application is stable, bug-free, and ready for deployment.
+- **Tasks**: End-to-end testing of the entire user journey. **Crucially, test the payment flow thoroughly using the Midtrans Sandbox and webhook simulator.** Bug fixing, UI polishing, and deployment.
 
 ## 8. Roadmap Beyond MVP
-### Phase 2
-- **Enhanced Medication Management**
-  - `@Scheduled` tasks for dose reminders
-  - Push notification system
+
+### Phase 2: Service Expansion
+-   **Service Booking System**: Implement the full booking workflow, leveraging the already-built payment logic.
+-   **Digital Prescriptions**: Build the interface for Vets to issue, and customers to view, digital prescriptions.
+-   **Enhanced Reviews**: Add features like replies to reviews and content flagging.
 
 ### Future Enhancements
-- **Business Intelligence Dashboard**
-  - Chart.js analytics
-  - Sales/booking trends
-- **Community Features**
-  - Reviews/ratings system
-- **Financial Integration**
-  - Payment gateway (Stripe/Midtrans)
-  - `PaymentController`
-- **Advanced Features**
-  - ML recommendations (Weka/Deeplearning4j)
-  - Mapping/shipping API integration
+-   **AI-Powered Assistant**: Implement the client-side AI chat for general advice.
+-   **Business Intelligence Dashboard**: Provide analytics for business owners on sales and booking trends.
+-   **Advanced Logistics**: Integrate with shipping APIs for real-time delivery tracking.
+-   **Push Notifications**: Implement reminders for medication, appointments, and order status updates.
