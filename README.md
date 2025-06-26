@@ -65,7 +65,15 @@ Pawtner will address these problems through a suite of interconnected features b
 | **Lack of Medication Schedule** | `prescription_items` | `medication_name`, `dosage`, `frequency`, `duration_days` | Provides a detailed, reliable digital reference for each medication, solving the core problem of forgotten details. |
 | **Need for Trusted Advice** | `reviews`, `businesses` | `reviews.rating`, `businesses.is_verified` | Users can make informed decisions based on community `reviews`. The `is_verified` badge, backed by an admin workflow, builds a foundational layer of trust. |
 
+---
+
 ### 4.2. Complete Database Schema
+
+![image](https://github.com/user-attachments/assets/aa3fac28-85ff-4043-bd13-c558e56ca5d7)
+
+[ERD Link](https://dbdiagram.io/d/ERD-Pawtner-685bc37bf413ba3508cb0af2)
+
+---
 
 ```sql
 -- Manages user accounts for both customers and business owners
@@ -81,6 +89,8 @@ CREATE TABLE users (
     role VARCHAR(50) NOT NULL CHECK (role IN ('business_owner', 'customer')),
     auth_provider VARCHAR(50) NOT NULL DEFAULT 'local',
     provider_id VARCHAR(255),
+    code_verification VARCHAR(20),
+    code_expire TIMESTAMP,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     UNIQUE (auth_provider, provider_id)
 );
